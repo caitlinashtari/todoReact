@@ -1,7 +1,7 @@
 //extends component so you don't have tolater
 import React, {Component} from 'react';
 
-export default class Base extends Component {
+export default class TodoList extends Component {
   constructor(props) {
     super(props);
 
@@ -9,13 +9,10 @@ export default class Base extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Bryan is a cotton headed ninny muggins</h1>
+      <ul>
         {this.props.children}
-      </div>
+      </ul>
     );
   }
 
 }
-
-Base.propTypes = {};

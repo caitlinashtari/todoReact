@@ -1,21 +1,22 @@
-"use strict";
-import React                                       from 'react';
-import {Router, Route, IndexRoute, browserHistory} from 'react-router';
+import React from 'react';
+//destructuring ES6 feature declare object variables instead of having to let Router = ReactRouter.Router; since already names of objects, case-sensitive, has to be the names from docs
+import { Router, Route, IndexRoute, BrowserHistory} from 'react-router';
 
-//components
-import Base     from './components/base.jsx';
-import Index    from './components/index/';
-import AddTodo  from './components/addTodo/';
+//import components
+import Base from './components/base.jsx'
+import IndexComponent from './components/index.jsx';
+import AddTodo from './components/addTodo.jsx';
+
+//export function to return our Routes
 
 export default () => {
-
   return (
-    <Router history={browserHistory}>
+    <Router history={BrowserHistory}>
       <Route path="/" component={Base}>
-        <IndexRoute component={Index} />
-        <Route path="add_todos" component={AddTodo}/>
+        {/* this.props.children will render these routes and components */}
+        <IndexRoute component={IndexComponent} />
+      <Route path="add_todo" component={AddTodo}></Route>
       </Route>
     </Router>
   )
-
-}//Routes();
+}
