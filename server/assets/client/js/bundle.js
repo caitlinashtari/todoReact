@@ -24169,7 +24169,6 @@
 	      isEditMode: false
 	    };
 
-	    _this.handleChecked = _this.handleChecked.bind(_this);
 	    _this.handleToggle = _this.handleToggle.bind(_this);
 	    return _this;
 	  }
@@ -24177,10 +24176,15 @@
 	  _createClass(TodoItem, [{
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      return _react2.default.createElement(
 	        'li',
 	        null,
-	        _react2.default.createElement('input', { type: 'checkbox', onClick: this.handleChecked }),
+	        _react2.default.createElement('input', {
+	          type: 'checkbox', defaultChecked: this.props.item.done, onClick: function onClick(e) {
+	            return _todosActions2.default.updateTodoChecked(_this2.props.item, e.target.checked);
+	          } }),
 	        this.state.isEditMode ? this.renderInput() : this.renderTitle()
 	      );
 	    }
@@ -24208,10 +24212,11 @@
 	  }, {
 	    key: 'renderTitle',
 	    value: function renderTitle() {
+	      var checked = this.props.item.done;
 	      return _react2.default.createElement(
 	        'span',
-	        { style: { minWidth: '100px' }, onClick: this.handleToggle },
-	        this.props.item.title
+	        { style: { minWidth: '100px', textDecoration: checked ? 'line-through' : 'none' }, onClick: this.handleToggle },
+	        this.props.item.title === '' ? 'add your item here' : this.props.item.title
 	      );
 	    }
 	  }]);
@@ -24296,11 +24301,23 @@
 	        });
 	      };
 	    }
+	  }, {
+	    key: 'updateTodoChecked',
+	    value: function updateTodoChecked(todoItem, checked) {
+	      return function (dispatch) {
+	        var newTodo = _extends({}, todoItem);
+	        newTodo.done = checked;
+	        _superagent2.default.put('/api/todos/' + todoItem._id).send(newTodo).end(function (err, res) {
+	          if (err) return console.log("UPDATE TITLE ERROR: ", err);
+
+	          return dispatch(JSON.parse(res.text));
+	        });
+	      };
+	    }
 	  }]);
 
 	  return TodoActions;
 	}();
-
 	//second param is name of action
 
 
@@ -24370,6 +24387,11 @@
 	      });
 
 	      this.setState(nState);
+	    }
+	  }, {
+	    key: 'onUpdateTodoChecked',
+	    value: function onUpdateTodoChecked(nTodo) {
+	      this.onUpdateTodoTitle(nTodo);
 	    }
 	  }]);
 

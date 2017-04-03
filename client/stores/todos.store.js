@@ -34,6 +34,12 @@ class TodoStore {
 
     this.setState(nState);
   }
+  
+  onUpdateTodoChecked(nTodo) {
+    this.onUpdateTodoTitle(nTodo)
+  }
 }
+
+
 
 export default Alt.createStore(TodoStore);

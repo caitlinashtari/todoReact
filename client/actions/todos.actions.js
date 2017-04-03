@@ -42,7 +42,21 @@ class TodoActions {
         })
     }
   }
-}
 
+  updateTodoChecked(todoItem, checked) {
+    return (dispatch) => {
+      let newTodo = {...todoItem};
+      newTodo.done = checked;
+      request
+      .put(`/api/todos/${todoItem._id}`)
+      .send(newTodo)
+      .end((err, res) => {
+        if(err) return console.log("UPDATE TITLE ERROR: ", err);
+
+        return dispatch(JSON.parse(res.text));
+      })
+    }
+  }
+}
 //second param is name of action
 export default Alt.createActions(TodoActions);

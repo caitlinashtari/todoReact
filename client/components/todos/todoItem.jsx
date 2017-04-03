@@ -11,14 +11,14 @@ export default class TodoItem extends Component {
       isEditMode: false
     };
 
-    this.handleChecked = this.handleChecked.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
   }
 
   render() {
     return (
       <li>
-        <input type="checkbox" onClick={this.handleChecked}/>
+        <input
+          type="checkbox" defaultChecked={this.props.item.done} onClick={(e) => TodoActions.updateTodoChecked(this.props.item, e.target.checked)} />
       {this.state.isEditMode ? this.renderInput() : this.renderTitle()}
       </li>
     );
@@ -43,8 +43,9 @@ export default class TodoItem extends Component {
   }
 
   renderTitle () {
+    let checked = this.props.item.done;
     return (
-      <span style={{minWidth: '100px'}} onClick={this.handleToggle}>{this.props.item.title}</span>
+      <span style={{minWidth: '100px', textDecoration: checked ? 'line-through' : 'none'}} onClick={this.handleToggle}>{this.props.item.title === '' ? 'add your item here' : this.props.item.title}</span>
     )
   }
 
