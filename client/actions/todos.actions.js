@@ -30,7 +30,7 @@ class TodoActions {
 
   updateTodoTitle(todoItem, newTitle) {
     return (dispatch) => {
-      let newTodo = todoItem;
+      let newTodo = {...todoItem};
       newTodo.title = newTitle;
       request
         .put(`/api/todos/${todoItem._id}`)
